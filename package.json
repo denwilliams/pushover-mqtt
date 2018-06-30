@@ -1,0 +1,23 @@
+{
+  "name": "pushover-mqtt",
+  "version": "0.1.0",
+  "description": "Relay messages from MQTT to Pushover",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denwilliams/pushover-mqtt.git"
+  },
+  "author": "Den Williams",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/denwilliams/pushover-mqtt/issues"
+  },
+  "homepage": "https://github.com/denwilliams/pushover-mqtt#readme",
+  "dependencies": {
+    "got": "^8.3.1",
+    "mqtt-usvc": "^1.0.4"
+  }
+}

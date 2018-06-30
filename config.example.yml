@@ -1,0 +1,10 @@
+mqtt:
+  uri: mqtt://localhost
+  prefix: pushover/
+service:
+  targets:
+    # Will allow sending on pushover/send/myapp/text and pushover/send/myapp/message
+    - key: myapp
+      api_token: ''
+      user_key: ''
+      title: 'My App'
