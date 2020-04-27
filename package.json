@@ -21,6 +21,6 @@
   "homepage": "https://github.com/denwilliams/pushover-mqtt#readme",
   "dependencies": {
     "got": "^8.3.1",
-    "mqtt-usvc": "^1.0.4"
+    "mqtt-usvc": "^3.0.3"
   }
 }
