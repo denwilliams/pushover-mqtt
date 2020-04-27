@@ -21,6 +21,7 @@
   "homepage": "https://github.com/denwilliams/pushover-mqtt#readme",
   "dependencies": {
     "got": "^8.3.1",
-    "mqtt-usvc": "^3.0.3"
+    "mqtt-usvc": "^3.0.3",
+    "prom-client": "^12.0.0"
   }
 }
