@@ -7,52 +7,52 @@ const PUSHOVER_URL = "https://api.pushover.net/1/messages.json";
 
 async function main() {
   const service = await mqttusvc.create();
+
+  for (const target of service.config.targets) {
+    if (target.api_token || target.user_key) {
+      console.warn(
+        "Configuration contains user_key or api_token. Please rename these to user and token."
+      );
+    }
+  }
+
   service.on("message", (topic, data) => {
     const [, action, key, dataType] = topic.split("/");
 
     if (action !== "send") return;
 
-    const target = service.config.targets.find(t => t.key === key);
+    const target = service.config.targets.find((t) => t.key === key);
     if (!target) return;
 
-    let message = "";
-    let title = target.title || undefined;
-    let url = undefined;
+    let payload = data;
 
     if (dataType === "text") {
-      message = data;
-    } else if (dataType === "message") {
-      message = data.message;
-      title = data.title || title;
-      url = data.url;
+      payload = { message: data };
+    } else if (dataType !== "message") {
+      return; // unsupported type
     }
 
     got
       .post(PUSHOVER_URL, {
-        body: {
-          token: target.api_token,
-          user: target.user_key,
-          message,
-          title,
-          url
-          // attachment: image attachment
-          // url_title, priority, sound, timestamp
+        json: {
+          ...target,
+          ...payload,
         },
-        json: true
       })
+      .json()
       .then(() => {
         console.log("OK -> " + message);
       })
-      .catch(err => console.error("Pushover error -> " + err));
+      .catch((err) => console.error("Pushover error -> " + err.response));
   });
 
-  service.config.targets.forEach(t => {
+  service.config.targets.forEach((t) => {
     service.subscribe("~/send/" + t.key + "/text");
     service.subscribe("~/send/" + t.key + "/message");
   });
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
