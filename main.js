@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const got = require("got");
 const mqttusvc = require("mqtt-usvc");
 
 const PUSHOVER_URL = "https://api.pushover.net/1/messages.json";
@@ -32,18 +31,28 @@ async function main() {
       return; // unsupported type
     }
 
-    got
-      .post(PUSHOVER_URL, {
-        json: {
-          ...target,
-          ...payload,
-        },
+    fetch({
+      url: PUSHOVER_URL,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...target,
+        ...payload,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          console.error("Pushover error -> " + response.statusText);
+          return;
+        }
+        return response.json();
       })
-      .json()
-      .then(() => {
-        console.log("OK -> " + message);
+      .then((data) => {
+        console.log(`OK -> ${message} -> (${data})`);
       })
-      .catch((err) => console.error("Pushover error -> " + err.response));
+      .catch((err) => console.error("Error -> " + err.message));
   });
 
   service.config.targets.forEach((t) => {
