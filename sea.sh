@@ -7,7 +7,7 @@ npx esbuild main.js --bundle --platform=node --target=node${nodejs_version} --ou
 echo '{ "main": ".sea/main.js", "output": ".sea/prep.blob", "disableExperimentalSEAWarning": true }' > .sea/config.json
 node --experimental-sea-config .sea/config.json
 
-for os in linux-armv7l linux-arm64 # linux-x64 darwin-x64 darwin-arm64
+for os in linux-arm64 # linux-armv7l # linux-x64 darwin-x64 darwin-arm64
 do
     download_url="https://nodejs.org/dist/v${nodejs_version}/node-v${nodejs_version}-${os}.tar.xz"
     curl -s "${download_url}" | tar -xJ -C "${NODE_DIR}"
