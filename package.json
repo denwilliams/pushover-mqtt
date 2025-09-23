@@ -1,6 +1,6 @@
 {
   "name": "pushover-mqtt",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Relay messages from MQTT to Pushover",
   "main": "index.js",
   "scripts": {
